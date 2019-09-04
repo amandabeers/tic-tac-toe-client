@@ -23,6 +23,8 @@ $(() => {
 
   $('#sign-out').on('click', authEvents.onSignOut)
 
+  $('#demo-sign-in').on('click', authEvents.onDemoSignIn)
+
   $('#new-game').on('click', gameEvents.onNewGame)
 
   $('.board').on('click', gameEvents.onClickBoard)

@@ -12,10 +12,16 @@ const signUp = formData => {
 }
 
 const signIn = formData => {
+  const { email, password } = formData.credentials
   return $.ajax({
     url: config.apiUrl + '/sign-in',
     method: 'POST',
-    data: formData
+    data: {
+      credentials: {
+        email,
+        password
+      }
+    }
   })
 }
 

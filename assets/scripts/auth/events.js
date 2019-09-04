@@ -8,8 +8,16 @@ const onSignUp = event => {
   event.preventDefault()
   const form = event.target
   const formData = getFormFields(form)
+  console.log(formData)
   api.signUp(formData)
-    .then(ui.signUpSuccessful)
+    .then(() => {
+      onSignIn(event)
+      // api.signIn(formData)
+    })
+    // .then((res) => {
+    //   console.log(res)
+    //   ui.signUpSuccessful(res)
+    // })
     .catch(ui.signUpFailure)
 }
 
@@ -20,6 +28,18 @@ const onSignIn = event => {
   api.signIn(formData)
     .then(ui.signInSuccessful)
     .catch(ui.signInFailure)
+}
+
+const onDemoSignIn = () => {
+  const formData = {
+    credentials: {
+      email: 'demo@demo.com',
+      password: 'password'
+    }
+  }
+  api.signIn(formData)
+    .then(ui.demoSignInSuccessful)
+    .catch(ui.demoSignInFailure)
 }
 
 const onSwitchSignIn = event => {
@@ -53,6 +73,7 @@ const onPwBtn = event => {
 module.exports = {
   onSignUp,
   onSignIn,
+  onDemoSignIn,
   onSwitchSignIn,
   onSwitchSignUp,
   onChangePassword,

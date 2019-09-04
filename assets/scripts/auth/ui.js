@@ -5,6 +5,7 @@ const store = require('./../store')
 const hideSignIn = () => {
   $('#auth-nav').removeClass('hidden')
   $('#game-stats').removeClass('hidden')
+  $('#landing-page1').addClass('hidden')
   $('#landing-page2').addClass('hidden')
 }
 
@@ -17,13 +18,13 @@ const hideSignOut = () => {
 }
 
 const signUpSuccessful = responseData => {
-  $('#auth-message').text('You signed up successfully! Please sign in below.')
+  hideSignIn()
+  $('#auth-message').text('You signed up successfully and have been signed in!')
   setTimeout(function () {
     $('#auth-message').text('')
   }, 3000)
   $('form').trigger('reset')
-  $('#landing-page1').addClass('hidden')
-  $('#landing-page2').removeClass('hidden')
+  store.user = responseData.user
 }
 
 const signUpFailure = () => {
@@ -36,6 +37,10 @@ const signUpFailure = () => {
 
 const signInSuccessful = responseData => {
   hideSignIn()
+  $('#auth-message').text('You have signed in successfully!')
+  setTimeout(function () {
+    $('#auth-message').text('')
+  }, 3000)
   $('form').trigger('reset')
   // keeping track of the user so we can have the token for the API
   // we use `store` so we can access the token in any file
@@ -48,6 +53,30 @@ const signInFailure = () => {
     $('#auth-message').text('')
   }, 3000)
   $('form').trigger('reset')
+}
+
+const demoSignInSuccessful = responseData => {
+  hideSignIn()
+  $('#about-app-modal').modal('hide')
+  $('body').removeClass('modal-open')
+  $('.modal-backdrop').remove()
+  $('#auth-message').text('You have signed in to the demo account!')
+  setTimeout(function () {
+    $('#auth-message').text('')
+  }, 3000)
+  // keeping track of the user so we can have the token for the API
+  // we use `store` so we can access the token in any file
+  store.user = responseData.user
+}
+
+const demoSignInFailure = responseData => {
+  $('#about-app-modal').modal('hide')
+  $('body').removeClass('modal-open')
+  $('.modal-backdrop').remove()
+  $('#auth-message').text('Oops, something went wrong')
+  setTimeout(function () {
+    $('#auth-message').text('')
+  }, 3000)
 }
 
 const switchSignIn = () => {
@@ -110,6 +139,8 @@ module.exports = {
   signUpFailure,
   signInSuccessful,
   signInFailure,
+  demoSignInSuccessful,
+  demoSignInFailure,
   switchSignIn,
   switchSignUp,
   changePasswordSuccessful,
