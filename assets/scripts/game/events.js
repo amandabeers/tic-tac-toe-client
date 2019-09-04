@@ -67,9 +67,10 @@ const pushPlayerMark = id => {
   store.board[id] = store.currentPlayerMark
   for (let i = 0; i < store.winIds.length; i++) {
     const shouldItPush = store.winIds[i].some(function (currNum) {
-      return store.currId === currNum
-    })
+      return store.currId === currNum // returns whether the current data-id matches an id in the win condition
+    }) // I should be able to change the above to just `id`
     if (shouldItPush) {
+      // push the current player mark in to the appropriate win condition
       store.winConditions[i].push(store.currentPlayerMark)
     }
   }
